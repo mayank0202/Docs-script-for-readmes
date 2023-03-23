@@ -23,7 +23,6 @@ jobs:
           pip install mkdocs mkdocs-material
           pip install markdown-extensions pymdown-extensions
       - name: Deploy docs
-        uses: CrazyMax/mkdocs-gh-deploy@v2
         run: |
           mkdocs gh-deploy --config-file mkdocs.yml \
                            --remote-branch gh-pages \
