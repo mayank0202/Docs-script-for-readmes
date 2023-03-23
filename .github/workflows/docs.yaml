@@ -30,4 +30,4 @@ jobs:
                            --remote-branch gh-pages \
                            --theme material \
         env:
-          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          github_token: ${{ github_token }}
