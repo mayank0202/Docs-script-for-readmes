@@ -30,4 +30,4 @@ jobs:
                            --remote-branch gh-pages \
                            --theme material \
         env:
-          arc_github_token: ${{ secrets.github_token }}
+          GITHUB_TOKEN: ${{ secrets.ARC_DOCS_TOKEN }}
