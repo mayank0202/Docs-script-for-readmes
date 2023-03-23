@@ -28,6 +28,5 @@ jobs:
           mkdocs gh-deploy --force \
                            --config-file mkdocs.yml \
                            --remote-branch gh-pages \
-                           --theme material \
         env:
           GITHUB_TOKEN: ${{ secrets.ARC_DOCS_TOKEN }}
