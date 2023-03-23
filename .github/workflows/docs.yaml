@@ -27,11 +27,5 @@ jobs:
           mkdocs gh-deploy --config-file mkdocs.yml \
                            --remote-branch gh-pages \
                            --theme material \
-                           --extensions pymdownx.superfences \
-                           --extensions tables \
-                           --extensions pymdownx.highlight:
-                               anchor_linenums: true \
-                           --extensions pymdownx.inlinehilite \
-                           --extensions pymdownx.snippets
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
