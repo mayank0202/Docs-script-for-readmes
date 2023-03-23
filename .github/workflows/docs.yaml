@@ -21,7 +21,6 @@ jobs:
       - name: Install dependencies
         run: |
           pip install mkdocs mkdocs-material
-          pip install markdown-extensions pymdown-extensions
           pip install mkdocs-techdocs-core
           pip install mkdocs-include-markdown-plugin
       - name: Deploy docs
