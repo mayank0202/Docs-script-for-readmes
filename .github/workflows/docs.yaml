@@ -29,4 +29,4 @@ jobs:
                            --config-file mkdocs.yml \
                            --remote-branch gh-pages \
         env:
-          GITHUB_TOKEN: ${{ secrets.ARC_DOCS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
