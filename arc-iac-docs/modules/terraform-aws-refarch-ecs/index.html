@@ -1,0 +1,1539 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Main documentation for ARC">
+      
+      
+      
+      
+        <link rel="prev" href="../terraform-aws-ref-arch-db/">
+      
+      
+        <link rel="next" href="../terraform-aws-ref-arch-eks/">
+      
+      <link rel="icon" href="../../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.1.3">
+    
+    
+      
+        <title>terraform-aws-refarch-ecs - ARC</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.c4a75a56.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#terraform-aws-ref-arch-ecs" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="ARC" class="md-header__button md-logo" aria-label="ARC" data-md-component="logo">
+      
+  <img src="../../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ARC
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              terraform-aws-refarch-ecs
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/mayank0202/Docs-script-for-readmes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="ARC" class="md-nav__button md-logo" aria-label="ARC" data-md-component="logo">
+      
+  <img src="../../../assets/logo.png" alt="logo">
+
+    </a>
+    ARC
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/mayank0202/Docs-script-for-readmes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+          ARC API
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          ARC API
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arc-api-docs/" class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          ARC IaC
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          ARC IaC
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+          IaC Modules
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          IaC Modules
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terraform-aws-refarch-control-tower-aft/" class="md-nav__link">
+        terraform-aws-refarch-control-tower-aft
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terraform-module-aws-bootstrap/" class="md-nav__link">
+        terraform-module-aws-bootstrap
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terraform-aws-ref-arch-network/" class="md-nav__link">
+        terraform-aws-ref-arch-network
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terraform-aws-ref-arch-db/" class="md-nav__link">
+        terraform-aws-ref-arch-db
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          terraform-aws-refarch-ecs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        terraform-aws-refarch-ecs
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    Overview
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#requirements" class="md-nav__link">
+    Requirements
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#providers" class="md-nav__link">
+    Providers
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modules" class="md-nav__link">
+    Modules
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resources" class="md-nav__link">
+    Resources
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inputs" class="md-nav__link">
+    Inputs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#outputs" class="md-nav__link">
+    Outputs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ssm-parameters" class="md-nav__link">
+    SSM Parameters
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#versioning" class="md-nav__link">
+    Versioning
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development" class="md-nav__link">
+    Development
+  </a>
+  
+    <nav class="md-nav" aria-label="Development">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configurations" class="md-nav__link">
+    Configurations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tests" class="md-nav__link">
+    Tests
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authors" class="md-nav__link">
+    Authors
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terraform-aws-ref-arch-eks/" class="md-nav__link">
+        terraform-aws-ref-arch-eks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terraform-aws-ref-arch-network/" class="md-nav__link">
+        terraform-aws-ref-arch-network
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terraform-aws-refarch-tags/" class="md-nav__link">
+        terraform-aws-refarch-tags
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terraform-k8s-app/" class="md-nav__link">
+        terraform-k8s-app
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+          Reference Architectures
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_3">
+          <span class="md-nav__icon md-icon"></span>
+          Reference Architectures
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_architectures/aws_account_baseline/" class="md-nav__link">
+        AWS Account Baseline
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_architectures/network_baseline/" class="md-nav__link">
+        Network Baseline
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_architectures/ecs_platform_baseline/" class="md-nav__link">
+        ECS Platform Baseline
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_architectures/eks_platform_baseline/" class="md-nav__link">
+        EKS Platform Baseline
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_architectures/lambda_platform_baseline/" class="md-nav__link">
+        Lambda Platform Baseline
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_architectures/windows_basic_platform_baseline/" class="md-nav__link">
+        Windows Basic Platform Baseline
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference_architectures/windows_enterprise_platform_baseline/" class="md-nav__link">
+        Windows Enterprise Platform Baseline
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          ARC UI
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          ARC UI
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arc-ui-docs/" class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    Overview
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#requirements" class="md-nav__link">
+    Requirements
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#providers" class="md-nav__link">
+    Providers
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modules" class="md-nav__link">
+    Modules
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resources" class="md-nav__link">
+    Resources
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inputs" class="md-nav__link">
+    Inputs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#outputs" class="md-nav__link">
+    Outputs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ssm-parameters" class="md-nav__link">
+    SSM Parameters
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#versioning" class="md-nav__link">
+    Versioning
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development" class="md-nav__link">
+    Development
+  </a>
+  
+    <nav class="md-nav" aria-label="Development">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configurations" class="md-nav__link">
+    Configurations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tests" class="md-nav__link">
+    Tests
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authors" class="md-nav__link">
+    Authors
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+    <a href="https://github.com/mayank0202/Docs-script-for-readmes/edit/main/docs/arc-iac-docs/modules/terraform-aws-refarch-ecs/README.md" title="Edit this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="terraform-aws-ref-arch-ecs">terraform-aws-ref-arch-ecs<a class="headerlink" href="#terraform-aws-ref-arch-ecs" title="Permanent link">&para;</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>Terraform Module for AWS ECS by the SourceFuse ARC team.</p>
+<p>The module assumes that upstream dependencies, namely networking dependencies, are created upstream and the values are passed into this module via mechanisms such as Terraform data source queries.</p>
+<p><img alt="Module Components" src="static/ecs_module_hla.png" /></p>
+<p>The module provisions</p>
+<ul>
+<li>ECS Cluster - we are focusing on the Fargate launch type, so we do not provision any underlying EC2 instances for the ECS launch type.</li>
+<li>Application Load Balancer</li>
+<li>Health Check Service - vanilla Nginx service that is used as the default route for the load balancer. The purpose of the health check service is to ensure that the core infrastructure, networking, security groups, etc. are configured correctly.</li>
+<li>Task execution IAM role - used by downstream services for task execution.</li>
+<li>Tags/SSM params - the module tags resources and outputs SSM params that can be used in data source lookups downstream for ECS services to reference to deploy into the cluster.</li>
+</ul>
+<p>Our approach to ECS Fargate clusters is to provision a cluster and allow downstream services to attach to it via convention based data source queries.</p>
+<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
+<div class="language-hcl highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="kr">module</span><span class="w"> </span><span class="nv">&quot;ecs&quot;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="w">  </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;git::https://github.com/sourcefuse/terraform-aws-refarch-ecs&quot;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a name="requirement_terraform"></a> <a href="#requirement_terraform">terraform</a></td>
+<td>~&gt; 1.3</td>
+</tr>
+<tr>
+<td><a name="requirement_aws"></a> <a href="#requirement_aws">aws</a></td>
+<td>~&gt; 4.0</td>
+</tr>
+</tbody>
+</table>
+<h2 id="providers">Providers<a class="headerlink" href="#providers" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a name="provider_aws"></a> <a href="#provider_aws">aws</a></td>
+<td>4.57.1</td>
+</tr>
+</tbody>
+</table>
+<h2 id="modules">Modules<a class="headerlink" href="#modules" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Source</th>
+<th>Version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a name="module_acm"></a> <a href="#module_acm">acm</a></td>
+<td>git::<a href="https://github.com/cloudposse/terraform-aws-acm-request-certificate">https://github.com/cloudposse/terraform-aws-acm-request-certificate</a></td>
+<td>0.17.0</td>
+</tr>
+<tr>
+<td><a name="module_alb"></a> <a href="#module_alb">alb</a></td>
+<td>./modules/alb</td>
+<td>n/a</td>
+</tr>
+<tr>
+<td><a name="module_alb_sg"></a> <a href="#module_alb_sg">alb_sg</a></td>
+<td>git::<a href="https://github.com/cloudposse/terraform-aws-security-group">https://github.com/cloudposse/terraform-aws-security-group</a></td>
+<td>2.0.0</td>
+</tr>
+<tr>
+<td><a name="module_ecs"></a> <a href="#module_ecs">ecs</a></td>
+<td>git::<a href="https://github.com/terraform-aws-modules/terraform-aws-ecs">https://github.com/terraform-aws-modules/terraform-aws-ecs</a></td>
+<td>v4.1.2</td>
+</tr>
+<tr>
+<td><a name="module_health_check"></a> <a href="#module_health_check">health_check</a></td>
+<td>./modules/health-check</td>
+<td>n/a</td>
+</tr>
+</tbody>
+</table>
+<h2 id="resources">Resources<a class="headerlink" href="#resources" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group">aws_cloudwatch_log_group.this</a></td>
+<td>resource</td>
+</tr>
+<tr>
+<td><a href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy">aws_iam_policy.secrets_manager_read_policy</a></td>
+<td>resource</td>
+</tr>
+<tr>
+<td><a href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy_attachment">aws_iam_policy_attachment.execution</a></td>
+<td>resource</td>
+</tr>
+<tr>
+<td><a href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy_attachment">aws_iam_policy_attachment.secrets_manager_read</a></td>
+<td>resource</td>
+</tr>
+<tr>
+<td><a href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role">aws_iam_role.execution</a></td>
+<td>resource</td>
+</tr>
+<tr>
+<td><a href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener">aws_lb_listener.http</a></td>
+<td>resource</td>
+</tr>
+<tr>
+<td><a href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener">aws_lb_listener.https</a></td>
+<td>resource</td>
+</tr>
+<tr>
+<td><a href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/service_discovery_private_dns_namespace">aws_service_discovery_private_dns_namespace.this</a></td>
+<td>resource</td>
+</tr>
+<tr>
+<td><a href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_parameter">aws_ssm_parameter.this</a></td>
+<td>resource</td>
+</tr>
+<tr>
+<td><a href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document">aws_iam_policy_document.assume</a></td>
+<td>data source</td>
+</tr>
+</tbody>
+</table>
+<h2 id="inputs">Inputs<a class="headerlink" href="#inputs" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Type</th>
+<th>Default</th>
+<th align="center">Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a name="input_access_logs_enabled"></a> <a href="#input_access_logs_enabled">access_logs_enabled</a></td>
+<td>A boolean flag to enable/disable access_logs</td>
+<td><code>bool</code></td>
+<td><code>true</code></td>
+<td align="center">no</td>
+</tr>
+<tr>
+<td><a name="input_acm_domain_name"></a> <a href="#input_acm_domain_name">acm_domain_name</a></td>
+<td>Domain name the ACM Certificate belongs to</td>
+<td><code>string</code></td>
+<td>n/a</td>
+<td align="center">yes</td>
+</tr>
+<tr>
+<td><a name="input_acm_process_domain_validation_options"></a> <a href="#input_acm_process_domain_validation_options">acm_process_domain_validation_options</a></td>
+<td>Flag to enable/disable processing of the record to add to the DNS zone to complete certificate validation</td>
+<td><code>bool</code></td>
+<td><code>true</code></td>
+<td align="center">no</td>
+</tr>
+<tr>
+<td><a name="input_acm_process_domain_validation_record_ttl"></a> <a href="#input_acm_process_domain_validation_record_ttl">acm_process_domain_validation_record_ttl</a></td>
+<td>The TTL of the record to add to the DNS zone to complete certificate validation</td>
+<td><code>string</code></td>
+<td><code>"300"</code></td>
+<td align="center">no</td>
+</tr>
+<tr>
+<td><a name="input_acm_subject_alternative_names"></a> <a href="#input_acm_subject_alternative_names">acm_subject_alternative_names</a></td>
+<td>Subject alternative names for the ACM Certificate</td>
+<td><code>list(string)</code></td>
+<td><code>[]</code></td>
+<td align="center">no</td>
+</tr>
+<tr>
+<td><a name="input_additional_ssm_params"></a> <a href="#input_additional_ssm_params">additional_ssm_params</a></td>
+<td>Additional SSM Parameters you would like to add for your ECS configuration.<br>The optional value defaults are:<br>  description = "Managed by Terraform"<br>  type = "SecureString"<br>  overwrite = true</td>
+<td><pre>list(object({<br>    name        = string<br>    value       = string<br>    description = string<br>    type        = string<br>    overwrite   = bool<br>  }))</pre></td>
+<td><code>[]</code></td>
+<td align="center">no</td>
+</tr>
+<tr>
+<td><a name="input_alb_access_logs_s3_bucket_force_destroy"></a> <a href="#input_alb_access_logs_s3_bucket_force_destroy">alb_access_logs_s3_bucket_force_destroy</a></td>
+<td>A boolean that indicates all objects should be deleted from the ALB access logs S3 bucket so that the bucket can be destroyed without error</td>
+<td><code>bool</code></td>
+<td><code>false</code></td>
+<td align="center">no</td>
+</tr>
+<tr>
+<td><a name="input_alb_access_logs_s3_bucket_force_destroy_enabled"></a> <a href="#input_alb_access_logs_s3_bucket_force_destroy_enabled">alb_access_logs_s3_bucket_force_destroy_enabled</a></td>
+<td>When <code>true</code>, permits <code>force_destroy</code> to be set to <code>true</code>.<br>This is an extra safety precaution to reduce the chance that Terraform will destroy and recreate<br>your S3 bucket, causing COMPLETE LOSS OF ALL DATA even if it was stored in Glacier.<br>WARNING: Upgrading this module from a version prior to 0.27.0 to this version<br>  will cause Terraform to delete your existing S3 bucket CAUSING COMPLETE DATA LOSS<br>  unless you follow the upgrade instructions on the Wiki <a href="https://github.com/cloudposse/terraform-aws-s3-log-storage/wiki/Upgrading-to-v0.27.0-(POTENTIAL-DATA-LOSS)">here</a>.<br>  See additional instructions for upgrading from v0.27.0 to v0.28.0 <a href="https://github.com/cloudposse/terraform-aws-s3-log-storage/wiki/Upgrading-to-v0.28.0-and-AWS-provider-v4-(POTENTIAL-DATA-LOSS)">here</a>.</td>
+<td><code>bool</code></td>
+<td><code>false</code></td>
+<td align="center">no</td>
+</tr>
+<tr>
+<td><a name="input_alb_certificate_arn"></a> <a href="#input_alb_certificate_arn">alb_certificate_arn</a></td>
+<td>ALB Certificate ARN. If <code>var.create_acm_certificate</code> is <code>true</code>, this will be ignored.</td>
+<td><code>string</code></td>
+<td><code>null</code></td>
+<td align="center">no</td>
+</tr>
+<tr>
+<td><a name="input_alb_idle_timeout"></a> <a href="#input_alb_idle_timeout">alb_idle_timeout</a></td>
+<td>The time that the connection is allowed to be idle.</td>
+<td><code>number</code></td>
+<td><code>300</code></td>
+<td align="center">no</td>
+</tr>
+<tr>
+<td><a name="input_alb_internal"></a> <a href="#input_alb_internal">alb_internal</a></td>
+<td>Determines if this load balancer is internally or externally facing.</td>
+<td><code>bool</code></td>
+<td><code>false</code></td>
+<td align="center">no</td>
+</tr>
+<tr>
+<td><a name="input_alb_ssl_policy"></a> <a href="#input_alb_ssl_policy">alb_ssl_policy</a></td>
+<td>Load Balancer SSL policy.</td>
+<td><code>string</code></td>
+<td><code>"ELBSecurityPolicy-FS-1-2-Res-2020-10"</code></td>
+<td align="center">no</td>
+</tr>
+<tr>
+<td><a name="input_alb_subnet_ids"></a> <a href="#input_alb_subnet_ids">alb_subnet_ids</a></td>
+<td>Subnet Ids assigned to the LB</td>
+<td><code>list(string)</code></td>
+<td>n/a</td>
+<td align="center">yes</td>
+</tr>
+<tr>
+<td><a name="input_cluster_name_override"></a> <a href="#input_cluster_name_override">cluster_name_override</a></td>
+<td>Name to assign the cluster. If null, the default will be <code>namespace-environment-cluster</code></td>
+<td><code>string</code></td>
+<td><code>null</code></td>
+<td align="center">no</td>
+</tr>
+<tr>
+<td><a name="input_create_acm_certificate"></a> <a href="#input_create_acm_certificate">create_acm_certificate</a></td>
+<td>Create an ACM Certificate to use with the ALB</td>
+<td><code>bool</code></td>
+<td><code>true</code></td>
+<td align="center">no</td>
+</tr>
+<tr>
+<td><a name="input_environment"></a> <a href="#input_environment">environment</a></td>
+<td>ID element. Usually used for region e.g. 'uw2', 'us-west-2', OR role 'prod', 'staging', 'dev', 'UAT'</td>
+<td><code>string</code></td>
+<td>n/a</td>
+<td align="center">yes</td>
+</tr>
+<tr>
+<td><a name="input_execution_policy_attachment_arns"></a> <a href="#input_execution_policy_attachment_arns">execution_policy_attachment_arns</a></td>
+<td>The ARNs of the policies you want to apply</td>
+<td><code>list(string)</code></td>
+<td><pre>[<br>  "arn:aws:iam::aws:policy/AmazonSSMReadOnlyAccess",<br>  "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"<br>]</pre></td>
+<td align="center">no</td>
+</tr>
+<tr>
+<td><a name="input_health_check_route_53_private_zone"></a> <a href="#input_health_check_route_53_private_zone">health_check_route_53_private_zone</a></td>
+<td>Used with <code>name</code> field to get a private Hosted Zone</td>
+<td><code>bool</code></td>
+<td><code>false</code></td>
+<td align="center">no</td>
+</tr>
+<tr>
+<td><a name="input_health_check_route_53_records"></a> <a href="#input_health_check_route_53_records">health_check_route_53_records</a></td>
+<td>List of Route 53 records for the health check service.</td>
+<td><code>list(string)</code></td>
+<td>n/a</td>
+<td align="center">yes</td>
+</tr>
+<tr>
+<td><a name="input_health_check_subnet_ids"></a> <a href="#input_health_check_subnet_ids">health_check_subnet_ids</a></td>
+<td>Subnet IDs for the health check tasks to run in. If not defined, this will use <code>var.alb_subnet_ids</code>.</td>
+<td><code>list(string)</code></td>
+<td><code>[]</code></td>
+<td align="center">no</td>
+</tr>
+<tr>
+<td><a name="input_log_group_retention_days"></a> <a href="#input_log_group_retention_days">log_group_retention_days</a></td>
+<td>Specifies the number of days you want to retain log events in the specified log group.<br>Possible values are: 1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1096,<br>1827, 2192, 2557, 2922, 3288, 3653, and 0.<br>If you select 0, the events in the log group are always retained and never expire</td>
+<td><code>number</code></td>
+<td><code>30</code></td>
+<td align="center">no</td>
+</tr>
+<tr>
+<td><a name="input_log_group_skip_destroy"></a> <a href="#input_log_group_skip_destroy">log_group_skip_destroy</a></td>
+<td>Set to true if you do not wish the log group (and any logs it may contain) to be deleted at destroy time, and instead just remove the log group from the Terraform state.</td>
+<td><code>bool</code></td>
+<td><code>false</code></td>
+<td align="center">no</td>
+</tr>
+<tr>
+<td><a name="input_namespace"></a> <a href="#input_namespace">namespace</a></td>
+<td>Namespace your resource belongs to.<br>Usually an abbreviation of your organization name, e.g. 'example' or 'arc', to help ensure generated IDs are globally unique"</td>
+<td><code>string</code></td>
+<td>n/a</td>
+<td align="center">yes</td>
+</tr>
+<tr>
+<td><a name="input_route_53_zone"></a> <a href="#input_route_53_zone">route_53_zone</a></td>
+<td>Route 53 domain to generate an ACM request for and to create A records against, i.e. sfrefarch.com. A wildcard subject alternative name is generated with the certificate.</td>
+<td><code>string</code></td>
+<td>n/a</td>
+<td align="center">yes</td>
+</tr>
+<tr>
+<td><a name="input_service_discovery_private_dns_namespace"></a> <a href="#input_service_discovery_private_dns_namespace">service_discovery_private_dns_namespace</a></td>
+<td>The name of the namespace</td>
+<td><code>list(string)</code></td>
+<td><pre>[<br>  "default.example.local"<br>]</pre></td>
+<td align="center">no</td>
+</tr>
+<tr>
+<td><a name="input_tags"></a> <a href="#input_tags">tags</a></td>
+<td>Tags to assign the resources.</td>
+<td><code>map(string)</code></td>
+<td><code>{}</code></td>
+<td align="center">no</td>
+</tr>
+<tr>
+<td><a name="input_vpc_id"></a> <a href="#input_vpc_id">vpc_id</a></td>
+<td>Id of the VPC where the resources will live</td>
+<td><code>string</code></td>
+<td>n/a</td>
+<td align="center">yes</td>
+</tr>
+</tbody>
+</table>
+<h2 id="outputs">Outputs<a class="headerlink" href="#outputs" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a name="output_alb_arn"></a> <a href="#output_alb_arn">alb_arn</a></td>
+<td>ARN to the ALB</td>
+</tr>
+<tr>
+<td><a name="output_alb_certificate_arn"></a> <a href="#output_alb_certificate_arn">alb_certificate_arn</a></td>
+<td>ACM Certificate ARN</td>
+</tr>
+<tr>
+<td><a name="output_alb_dns_name"></a> <a href="#output_alb_dns_name">alb_dns_name</a></td>
+<td>External DNS name to the ALB</td>
+</tr>
+<tr>
+<td><a name="output_cluster_arn"></a> <a href="#output_cluster_arn">cluster_arn</a></td>
+<td>ECS Cluster ARN</td>
+</tr>
+<tr>
+<td><a name="output_cluster_id"></a> <a href="#output_cluster_id">cluster_id</a></td>
+<td>ECS Cluster ID</td>
+</tr>
+<tr>
+<td><a name="output_cluster_name"></a> <a href="#output_cluster_name">cluster_name</a></td>
+<td>ECS Cluster name</td>
+</tr>
+<tr>
+<td><a name="output_health_check_fqdn"></a> <a href="#output_health_check_fqdn">health_check_fqdn</a></td>
+<td>Health check FQDN record created in Route 53.</td>
+</tr>
+</tbody>
+</table>
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+
+<h2 id="ssm-parameters">SSM Parameters<a class="headerlink" href="#ssm-parameters" title="Permanent link">&para;</a></h2>
+<p>There are some commonly referenced outputs generated by this module.
+These outputs are also published to SSM for ease of access for downstream resources.<br />
+The default SSM Parameter format used by this module is the following:<br />
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-1-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-1-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-1-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-1-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-1-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-1-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-1-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-1-10">10</a></span>
+<span class="normal"><a href="#__codelineno-1-11">11</a></span>
+<span class="normal"><a href="#__codelineno-1-12">12</a></span>
+<span class="normal"><a href="#__codelineno-1-13">13</a></span>
+<span class="normal"><a href="#__codelineno-1-14">14</a></span>
+<span class="normal"><a href="#__codelineno-1-15">15</a></span>
+<span class="normal"><a href="#__codelineno-1-16">16</a></span>
+<span class="normal"><a href="#__codelineno-1-17">17</a></span>
+<span class="normal"><a href="#__codelineno-1-18">18</a></span>
+<span class="normal"><a href="#__codelineno-1-19">19</a></span>
+<span class="normal"><a href="#__codelineno-1-20">20</a></span>
+<span class="normal"><a href="#__codelineno-1-21">21</a></span>
+<span class="normal"><a href="#__codelineno-1-22">22</a></span>
+<span class="normal"><a href="#__codelineno-1-23">23</a></span>
+<span class="normal"><a href="#__codelineno-1-24">24</a></span>
+<span class="normal"><a href="#__codelineno-1-25">25</a></span>
+<span class="normal"><a href="#__codelineno-1-26">26</a></span>
+<span class="normal"><a href="#__codelineno-1-27">27</a></span>
+<span class="normal"><a href="#__codelineno-1-28">28</a></span>
+<span class="normal"><a href="#__codelineno-1-29">29</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a>[
+<a id="__codelineno-1-2" name="__codelineno-1-2"></a>  ## alb
+<a id="__codelineno-1-3" name="__codelineno-1-3"></a>  {
+<a id="__codelineno-1-4" name="__codelineno-1-4"></a>    name        = &quot;/${var.namespace}/${var.environment}/alb/${module.alb.alb_name}/endpoint&quot;
+<a id="__codelineno-1-5" name="__codelineno-1-5"></a>    value       = module.alb.alb_dns_name
+<a id="__codelineno-1-6" name="__codelineno-1-6"></a>    description = &quot;ALB DNS Endpoint&quot;
+<a id="__codelineno-1-7" name="__codelineno-1-7"></a>    type        = &quot;String&quot;
+<a id="__codelineno-1-8" name="__codelineno-1-8"></a>  },
+<a id="__codelineno-1-9" name="__codelineno-1-9"></a>  {
+<a id="__codelineno-1-10" name="__codelineno-1-10"></a>    name        = &quot;/${var.namespace}/${var.environment}/alb/${module.alb.alb_name}/arn&quot;
+<a id="__codelineno-1-11" name="__codelineno-1-11"></a>    value       = module.alb.alb_arn
+<a id="__codelineno-1-12" name="__codelineno-1-12"></a>    description = &quot;ALB ARN&quot;
+<a id="__codelineno-1-13" name="__codelineno-1-13"></a>    type        = &quot;String&quot;
+<a id="__codelineno-1-14" name="__codelineno-1-14"></a>  },
+<a id="__codelineno-1-15" name="__codelineno-1-15"></a>
+<a id="__codelineno-1-16" name="__codelineno-1-16"></a>  ## ecs
+<a id="__codelineno-1-17" name="__codelineno-1-17"></a>  {
+<a id="__codelineno-1-18" name="__codelineno-1-18"></a>    name        = &quot;/${var.namespace}/${var.environment}/ecs/${module.ecs.cluster_name}/id&quot;
+<a id="__codelineno-1-19" name="__codelineno-1-19"></a>    value       = module.ecs.cluster_id
+<a id="__codelineno-1-20" name="__codelineno-1-20"></a>    description = &quot;ECS Cluster ID&quot;
+<a id="__codelineno-1-21" name="__codelineno-1-21"></a>    type        = &quot;String&quot;
+<a id="__codelineno-1-22" name="__codelineno-1-22"></a>  },
+<a id="__codelineno-1-23" name="__codelineno-1-23"></a>  {
+<a id="__codelineno-1-24" name="__codelineno-1-24"></a>    name        = &quot;/${var.namespace}/${var.environment}/ecs/${module.ecs.cluster_name}/arn&quot;
+<a id="__codelineno-1-25" name="__codelineno-1-25"></a>    value       = module.ecs.cluster_arn
+<a id="__codelineno-1-26" name="__codelineno-1-26"></a>    description = &quot;ECS Cluster ARN&quot;
+<a id="__codelineno-1-27" name="__codelineno-1-27"></a>    type        = &quot;String&quot;
+<a id="__codelineno-1-28" name="__codelineno-1-28"></a>  }
+<a id="__codelineno-1-29" name="__codelineno-1-29"></a>]
+</code></pre></div></td></tr></table></div></p>
+<p>You can append to this array by adding values to <code>var.additional_ssm_params</code>.  </p>
+<h2 id="versioning">Versioning<a class="headerlink" href="#versioning" title="Permanent link">&para;</a></h2>
+<p>This project uses a <code>.version</code> file at the root of the repo which the pipeline reads from and does a git tag.  </p>
+<p>When you intend to commit to <code>main</code>, you will need to increment this version. Once the project is merged,
+the pipeline will kick off and tag the latest git commit.  </p>
+<h2 id="development">Development<a class="headerlink" href="#development" title="Permanent link">&para;</a></h2>
+<h3 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://learn.hashicorp.com/terraform/getting-started/install#installing-terraform">terraform</a></li>
+<li><a href="https://github.com/segmentio/terraform-docs">terraform-docs</a></li>
+<li><a href="https://pre-commit.com/#install">pre-commit</a></li>
+<li><a href="https://golang.org/doc/install#install">golang</a></li>
+<li><a href="https://github.com/golang/lint#installation">golint</a></li>
+</ul>
+<h3 id="configurations">Configurations<a class="headerlink" href="#configurations" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Configure pre-commit hooks
+  <div class="language-sh highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a>pre-commit<span class="w"> </span>install
+</code></pre></div></td></tr></table></div></li>
+</ul>
+<h3 id="tests">Tests<a class="headerlink" href="#tests" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Tests are available in <code>test</code> directory</li>
+<li>Configure the dependencies
+  <div class="language-sh highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span>
+<span class="normal"><a href="#__codelineno-3-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="nb">cd</span><span class="w"> </span>test/
+<a id="__codelineno-3-2" name="__codelineno-3-2"></a>go<span class="w"> </span>mod<span class="w"> </span>init<span class="w"> </span>github.com/sourcefuse/terraform-aws-refarch-ecs
+<a id="__codelineno-3-3" name="__codelineno-3-3"></a>go<span class="w"> </span>get<span class="w"> </span>github.com/gruntwork-io/terratest/modules/terraform
+</code></pre></div></td></tr></table></div></li>
+<li>Now execute the test<br />
+  <div class="language-sh highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1"></a>go<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-timeout<span class="w">  </span>30m
+</code></pre></div></td></tr></table></div></li>
+</ul>
+<h2 id="authors">Authors<a class="headerlink" href="#authors" title="Permanent link">&para;</a></h2>
+<p>This project is authored by:
+- SourceFuse</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../terraform-aws-ref-arch-db/" class="md-footer__link md-footer__link--prev" aria-label="Previous: terraform-aws-ref-arch-db" rel="prev">
+            <div class="md-footer__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <div class="md-ellipsis">
+                <span class="md-footer__direction">
+                  Previous
+                </span>
+                terraform-aws-ref-arch-db
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../terraform-aws-ref-arch-eks/" class="md-footer__link md-footer__link--next" aria-label="Next: terraform-aws-ref-arch-eks" rel="next">
+            <div class="md-footer__title">
+              <div class="md-ellipsis">
+                <span class="md-footer__direction">
+                  Next
+                </span>
+                terraform-aws-ref-arch-eks
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; 2023 <a href="https://github.com/mayank0202/Docs-script-for-readmes" target="_blank" rel="noopener">ARC</a>
+
+    </div>
+  
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/sourcefuse/loopback4-microservice-catalog" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.copy", "navigation.footer", "content.action.edit"], "search": "../../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.efa0ade1.min.js"></script>
+      
+        <script src="../../../search/main.js"></script>
+      
+    
+  </body>
+</html>
